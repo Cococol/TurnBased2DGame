@@ -1,26 +1,49 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
 using turn;
 
-public class PlayerController : ICharacterController
+public class PlayerController : MonoBehaviour
 {
-    private readonly TurnChecker turnChecker = new TurnChecker();
+    private TurnChecker turnChecker;
+    private EnemyController _enemyController;
 
-    public void AnimationEventTest()
+    private Animator anim;
+
+
+    private int totalDamage;
+    [SerializeField]
+    private int health = 100;
+
+    private void Awake()
     {
-        turnChecker.checkTurn = TurnChecker.Turn.Player;
-        turnChecker.CheckEnumState();
+        turnChecker = FindObjectOfType<TurnChecker>();
+        _enemyController = FindObjectOfType<EnemyController>();
+        anim = GetComponent<Animator>();
     }
 
-    public void TakeDamage(int damage)
+
+    public void StartAnimation()
     {
-        
+        //start animation here
     }
 
-    public void DealDamage(int damage, TurnChecker.Turn turn)
+    public void TakeDamage(int dmg)
     {
-        throw new System.NotImplementedException();
+        //play dmg animation
+        health -= dmg;
+
+        if (health <= 0)
+        {
+            anim.SetInteger("PlayerHealth", 0);
+            //game over panel
+        }
+    }
+
+    public void DealDamage()
+    {
+        totalDamage = 40;
+        _enemyController.TakeDamage(totalDamage);
+        turnChecker.WaitForMethod(3);
     }
 }

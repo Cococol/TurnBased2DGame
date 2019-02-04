@@ -3,23 +3,42 @@ using System.Collections.Generic;
 using UnityEngine;
 using turn;
 
-public class EnemyController : MonoBehaviour, ICharacterController
+public class EnemyController : MonoBehaviour
 {
-    private readonly TurnChecker turnChecker = new TurnChecker();
+    private TurnChecker turnChecker;
+    private PlayerController _playerController;
 
-    public void AnimationEventTest()
+    private int totalDamage;
+    [SerializeField]
+    private int health = 100;
+
+    private void Awake()
     {
-        turnChecker.checkTurn = TurnChecker.Turn.Enemy;
-        turnChecker.CheckEnumState();
+        turnChecker = FindObjectOfType<TurnChecker>();
+        _playerController = FindObjectOfType<PlayerController>();
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int dmg)
     {
+        //play dmg animation
+        health -= dmg;
 
+        if (health <= 0)
+        {
+            //play death animation
+            //game over panel
+        }
     }
 
-    public void DealDamage(int damage, TurnChecker.Turn turn)
+    public void StartAnimation()
     {
-        throw new System.NotImplementedException();
+        //start animation here
+    }
+
+    public void DealDamage()
+    {
+        totalDamage = 40;
+        _playerController.TakeDamage(totalDamage);
+        turnChecker.WaitForMethod(3);
     }
 }
