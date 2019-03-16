@@ -40,6 +40,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            anim.SetInteger("PlayerHealth", 0);
+        }
+    }
+
     public void DealDamage()
     {
         totalDamage = 40;

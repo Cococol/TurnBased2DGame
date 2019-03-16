@@ -8,6 +8,8 @@ public class EnemyController : MonoBehaviour
     private TurnChecker turnChecker;
     private PlayerController _playerController;
 
+    private Animator anim;
+
     private int totalDamage;
     [SerializeField]
     private int health = 100;
@@ -16,6 +18,7 @@ public class EnemyController : MonoBehaviour
     {
         turnChecker = FindObjectOfType<TurnChecker>();
         _playerController = FindObjectOfType<PlayerController>();
+        anim = GetComponent<Animator>();
     }
 
     public void TakeDamage(int dmg)
@@ -33,6 +36,14 @@ public class EnemyController : MonoBehaviour
     public void StartAnimation()
     {
         //start animation here
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            anim.SetInteger("EnemyHealth", 0);
+        }
     }
 
     public void DealDamage()
